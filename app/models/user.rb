@@ -36,6 +36,8 @@ class User < ApplicationRecord
     \z
   }x
 
+  RECENTLY_ACTIVE_LIMIT = 10_000
+
   attr_accessor :scholar_email, :new_note, :note_for_current_role, :user_status, :merge_user_id,
                 :add_credits, :remove_credits, :add_org_credits, :remove_org_credits, :ip_address,
                 :current_password
@@ -201,6 +203,15 @@ class User < ApplicationRecord
       ),
     )
   }
+
+  scope :with_experience_level, lambda { |level = nil|
+    includes(:setting).where("users_settings.experience_level": level)
+  }
+
+  scope :recently_active, lambda { |active_limit = RECENTLY_ACTIVE_LIMIT|
+    order(updated_at: :desc).limit(active_limit)
+  }
+
   before_validation :downcase_email
 
   # make sure usernames are not empty, to be able to use the database unique index
@@ -291,7 +302,7 @@ class User < ApplicationRecord
   end
 
   def cached_following_podcasts_ids
-    cache_key = "user-#{id}-#{last_followed_at}/following_podcasts_ids"
+    cache_key = "#{cache_key_with_version}/following_podcasts_ids"
     Rails.cache.fetch(cache_key, expires_in: 12.hours) do
       Follow.follower_podcast(id).pluck(:followable_id)
     end

@@ -314,6 +314,7 @@
   padding-bottom: var(--su-4);
 
   &__header {
+    width: 100%;
     display: flex;
     align-items: center;
   }
@@ -362,5 +363,12 @@
     .text-styles {
       padding-right: var(--su-8);
     }
+  }
+}
+
+.sponsorship-dropdown {
+  hr {
+    border: 0.5px solid var(--divider);
+    margin: 8px;
   }
 }
