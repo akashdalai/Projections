@@ -22,7 +22,11 @@ class ArticleDecorator < ApplicationDecorator
   end
 
   def current_state_path
-    current_state.published? ? "/#{username}/#{slug}" : "/#{username}/#{slug}?preview=#{password}"
+    if current_state.published?
+      "#{locale_prefix}/#{username}/#{slug}"
+    else
+      "#{locale_prefix}/#{username}/#{slug}?preview=#{password}"
+    end
   end
 
   def processed_canonical_url

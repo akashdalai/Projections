@@ -4,6 +4,7 @@ class Comment < ApplicationRecord
 
   include PgSearch::Model
   include Reactable
+  include Localizable
 
   BODY_MARKDOWN_SIZE_RANGE = (1..25_000)
 
@@ -123,7 +124,7 @@ class Comment < ApplicationRecord
     "comment_#{id}"
   end
 
-  def path
+  def unlocalized_path
     "/#{user.username}/comment/#{id_code_generated}"
   rescue StandardError
     "/404.html"
