@@ -1,5 +1,5 @@
 class PageViewRollup
-  ATTRIBUTES_PRESERVED = %i[article_id created_at user_id].freeze
+  ATTRIBUTES_PRESERVED = %i[article_id page_id created_at user_id].freeze
   ATTRIBUTES_DESTROYED = %i[id domain path referrer updated_at user_agent counts_for_number_of_views
                             time_tracked_in_seconds].freeze
 
@@ -57,7 +57,7 @@ class PageViewRollup
     (0..23).each do |hour|
       start_hour = fixed_date.change(hour: hour)
       end_hour = fixed_date.change(hour: hour + 1)
-      rows = relation.where(user_id: nil, created_at: start_hour...end_hour)
+      rows = relation.where(page_id: nil, user_id: nil, created_at: start_hour...end_hour)
       aggregate_into_groups(rows).each do |compacted_views|
         created << compact_records(start_hour, compacted_views)
       end
