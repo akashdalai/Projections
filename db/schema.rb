@@ -1388,6 +1388,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_05_23_132708) do
     t.boolean "mobile_comment_notifications", default: true, null: false
     t.boolean "mobile_mention_notifications", default: true, null: false
     t.boolean "mod_roundrobin_notifications", default: true, null: false
+    t.boolean "new_post_notifications", default: true, null: false
     t.boolean "reaction_notifications", default: true, null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
